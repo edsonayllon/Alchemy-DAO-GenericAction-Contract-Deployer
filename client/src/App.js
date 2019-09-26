@@ -1,13 +1,19 @@
 import React, {useEffect} from 'react';
 import logo from './logo.svg';
+import Web3 from 'web3';
 import './App.css';
 const genericSchemeJson = require('@daostack/arc/build/contracts/GenericScheme.json')
-
 // From https://daostack.github.io/DAOstack-Hackers-Kit/gettingStarted/setupGenericScheme/
 
+const web3 = new Web3(Web3.givenProvider);
+
 function App() {
-  const deployScheme = () => {
-    
+  const deployScheme = async () => {
+    const accounts = await window.ethereum.enable();
+    const from = accounts[0];
+    const gas = 5000000;
+    const gasPrice = await web3.eth.getGasPrice();
+
     const genericSchemeContract = new web3.eth.Contract(
       genericSchemeJson.abi,
       undefined,
@@ -29,6 +35,8 @@ function App() {
     // Log Address of new instance to use in next step while registering the scheme to DAO
     console.log(`Deployed new GenericScheme instance at ${genericScheme.options.address}`)
 
+    
+    /*
     // Following are example values, Please change appropriately
     // Refer https://daostack.zendesk.com/hc/en-us/sections/360000535638-Genesis-Protocol
     const voteParams = {
@@ -46,6 +54,7 @@ function App() {
       "activationTime": 0
     }
 
+    
     // Get address from https://github.com/daostack/migration/blob/master/migration.json
     const votingMachineAddress = "0xaddress-of-VotingMachine-of-DAO-on-given-network"
 
@@ -71,10 +80,11 @@ function App() {
       votingMachineAddress,
       targetContractAddress
     ).send()
+    */
   }
 
   useEffect(()=>{
-    // deployScheme()
+    deployScheme()
   })
 
   return (
