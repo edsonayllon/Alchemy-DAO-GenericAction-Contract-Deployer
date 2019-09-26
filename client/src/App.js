@@ -36,25 +36,26 @@ function App() {
     console.log(`Deployed new GenericScheme instance at ${genericScheme.options.address}`)
 
     
-    /*
+    
     // Following are example values, Please change appropriately
     // Refer https://daostack.zendesk.com/hc/en-us/sections/360000535638-Genesis-Protocol
+    // Genesis DAO Decision https://daotalk.org/t/the-contentious-genesis-parameter-delta/481
     const voteParams = {
-      "boostedVotePeriodLimit": 345600,
-      "daoBountyConst": 10,
-      "minimumDaoBountyGWei": 150000000000,
-      "queuedVotePeriodLimit": 2592000,
-      "queuedVoteRequiredPercentage": 50,
-      "preBoostedVotePeriodLimit": 86400,
-      "proposingRepRewardGwei": 50000000000,
-      "quietEndingPeriod": 172800,
-      "thresholdConst": 1200,
-      "voteOnBehalf": "0x0000000000000000000000000000000000000000",
-      "votersReputationLossRatio": 4,
-      "activationTime": 0
+      "boostedVotePeriodLimit": 345600, // voting period, boosted votes are fast tracked
+      "daoBountyConst": 10, // determines automatic downstaking value by multiplying by average
+      "minimumDaoBountyGWei": 150000000000, // minimum amount of GEN a DAO will stake when automatically downstaking each proposal
+      "queuedVotePeriodLimit": 2592000, // voting time for nonboosted proposals
+      "queuedVoteRequiredPercentage": 50, // quorum to decide votes (nonboosted)
+      "preBoostedVotePeriodLimit": 86400, // time proposal must be above boosted threshold before being boosted
+      "proposingRepRewardGwei": 50000000000, // controls how much voting power someone who submits a proposal gains
+      "quietEndingPeriod": 172800, // time votes need to stay the same to be considered the final result
+      "thresholdConst": 1200, // controls rate of required confidence score for boosting rising as currently boosted proposals rises.
+      "voteOnBehalf": "0x0000000000000000000000000000000000000000", // https://daotalk.org/t/how-to-use-the-scheme-registrar-in-alchemy/669 kept this as null address
+      "votersReputationLossRatio": 4, // percentage lost if vote is against the final outcome for nonboosted
+      "activationTime": 0 // time when proposing and voting is activated (unix)
     }
 
-    
+    /*
     // Get address from https://github.com/daostack/migration/blob/master/migration.json
     const votingMachineAddress = "0xaddress-of-VotingMachine-of-DAO-on-given-network"
 
