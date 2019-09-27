@@ -6,6 +6,19 @@ const genericSchemeJson = require('@daostack/arc/build/contracts/GenericScheme.j
 // From https://daostack.github.io/DAOstack-Hackers-Kit/gettingStarted/setupGenericScheme/
 
 const web3 = new Web3(Web3.givenProvider);
+const optionByNetwork = {
+  rinkeby: {
+    votingMachineAddress: '0x7648665cda324511b71e002E9C62da98a8E68505', // Genesis Protocol
+    targetContractAddress: '0x38f1886081759f7d352c28984908d04e8d2205a6', // standard bounties contract
+    daoAddress: '0x72939947e7a1c4ac94bb840e3304b322237ad1a8'
+  }, 
+  main: {
+    votingMachineAddress: '0x8DDCEF56944094DF8ef8836A6f8168a75a133192', // Genesis Protocol 
+    targetContractAddress: '0x43ee232734097B07803Ea605b49C6eE6Bf10f8cc', // standard bounties contract
+    daoAddress: '0x294f999356ed03347c7a23bcbcf8d33fa41dc830' // Genesis Alpha DAO
+  }
+}
+const network = 'rinkeby';
 
 function App() {
   const deployScheme = async () => {
@@ -34,8 +47,6 @@ function App() {
 
     // Log Address of new instance to use in next step while registering the scheme to DAO
     console.log(`Deployed new GenericScheme instance at ${genericScheme.options.address}`)
-
-    
     
     // Following are example values, Please change appropriately
     // Refer https://daostack.zendesk.com/hc/en-us/sections/360000535638-Genesis-Protocol
@@ -55,15 +66,14 @@ function App() {
       "activationTime": 0 // time when proposing and voting is activated (unix)
     }
 
-    /*
     // Get address from https://github.com/daostack/migration/blob/master/migration.json
-    const votingMachineAddress = "0xaddress-of-VotingMachine-of-DAO-on-given-network"
+    const votingMachineAddress = optionByNetwork[network].votingMachineAddress; // address of voting machine for a network, defaults to Genesis Protocol
 
     // For eg if you want this Generic Scheme to enable DAO to interact with Bounties Network
     // then targetContract would be the address of Bounties Network's respective contract
-    const targetContractAddress = "0xaddress-of-contract-this-will-interact-with"
-
-    const avatar = "0xaddres-of-DAO"
+    const targetContractAddress = optionByNetwork[network].targetContractAddress; // contract generic scheme queries 
+    
+    const avatar = optionByNetwork[network].daoAddress; // address of DAO
 
     // paramHash will be useful in later step so lets log it
     const paramHash = genericScheme.methods.initialize(
@@ -81,7 +91,6 @@ function App() {
       votingMachineAddress,
       targetContractAddress
     ).send()
-    */
   }
 
   useEffect(()=>{
