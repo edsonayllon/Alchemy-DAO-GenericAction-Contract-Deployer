@@ -24,7 +24,7 @@ function App() {
   const deployScheme = async () => {
     const accounts = await window.ethereum.enable();
     const from = accounts[0];
-    const gas = 5000000;
+    const gas = 2000000;
     const gasPrice = await web3.eth.getGasPrice();
 
     const genericSchemeContract = new web3.eth.Contract(
@@ -50,7 +50,7 @@ function App() {
     
     // Following are example values, Please change appropriately
     // Refer https://daostack.zendesk.com/hc/en-us/sections/360000535638-Genesis-Protocol
-    // Genesis DAO Decision https://daotalk.org/t/the-contentious-genesis-parameter-delta/481
+    // current parameters based on https://daotalk.org/t/the-contentious-genesis-parameter-delta/481
     const voteParams = {
       "boostedVotePeriodLimit": 345600, // voting period, boosted votes are fast tracked
       "daoBountyConst": 10, // determines automatic downstaking value by multiplying by average
@@ -76,19 +76,25 @@ function App() {
     const avatar = optionByNetwork[network].daoAddress; // address of DAO
 
     // paramHash will be useful in later step so lets log it
+    // Mimic getParametersHash(): https://github.com/daostack/infra/blob/master/contracts/votingMachines/GenesisProtocolLogic.sol 
+    // This method shown here won't work as encodePacked is used: https://ethereum.stackexchange.com/questions/60144/creating-hash-of-a-struct-in-solidity-and-javascript
+    // Simpler would be to use the contract deployed, instructions here: https://daotalk.org/t/how-to-use-the-scheme-registrar-in-alchemy/669
+    // alternatvely, we can create a copy of that smart contract function, and call it locally
     const paramHash = genericScheme.methods.initialize(
       avatar,
-      voteParams,
       votingMachineAddress,
+      voteParams,
       targetContractAddress
     ).call()
 
     console.log(paramHash)
 
+    // calls initialize method in generic scheme contract 
+    /// https://github.com/daostack/arc/blob/master/contracts/schemes/GenericScheme.sol
     genericScheme.methods.initialize(
       avatar,
-      voteParams,
       votingMachineAddress,
+      voteParams,
       targetContractAddress
     ).send()
   }
