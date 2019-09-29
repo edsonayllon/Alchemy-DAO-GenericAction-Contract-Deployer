@@ -48,12 +48,6 @@ function App() {
     // Log Address of new instance to use in next step while registering the scheme to DAO
     console.log(`Deployed new GenericScheme instance at ${genericScheme.options.address}`)
 
-    // Following are example values, Please change appropriately
-    // To get, see https://daotalk.org/t/how-to-use-the-scheme-registrar-in-alchemy/669
-    // or https://github.com/edsonayllon/Alchemy-DAO-Scheme-Param-Hash-Generator
-    // current parameters based on https://daotalk.org/t/the-contentious-genesis-parameter-delta/481
-    const voteParams = "0xde924589f841ec9b5ea74a57f0063166c5330e7d40152ebb6d9b8c9f42a89254"
-
     // Get address from https://github.com/daostack/migration/blob/master/migration.json
     const votingMachineAddress = optionByNetwork[network].votingMachineAddress; // address of voting machine for a network, defaults to Genesis Protocol
 
@@ -63,32 +57,28 @@ function App() {
 
     const avatar = optionByNetwork[network].daoAddress; // address of DAO
 
-    // paramHash will be useful in later step so lets log it
-    // Mimic getParametersHash(): https://github.com/daostack/infra/blob/master/contracts/votingMachines/GenesisProtocolLogic.sol
-    // This method shown here won't work as encodePacked is used: https://ethereum.stackexchange.com/questions/60144/creating-hash-of-a-struct-in-solidity-and-javascript
-    // Simpler would be to use the contract deployed, instructions here: https://daotalk.org/t/how-to-use-the-scheme-registrar-in-alchemy/669
-    // alternatvely, we can create a copy of that smart contract function, and call it locally
-    const paramHash = await genericScheme.methods.initialize(
+    // Following are example values, Please change appropriately
+    // To get, see https://daotalk.org/t/how-to-use-the-scheme-registrar-in-alchemy/669
+    // or https://github.com/edsonayllon/Alchemy-DAO-Scheme-Param-Hash-Generator
+    // current parameters based on https://daotalk.org/t/the-contentious-genesis-parameter-delta/481
+    const paramHash = "0xde924589f841ec9b5ea74a57f0063166c5330e7d40152ebb6d9b8c9f42a89254"
+
+    const estimate = await genericScheme.methods.initialize(
       avatar,
       votingMachineAddress,
-      voteParams,
+      paramHash,
       targetContractAddress
-    ).call((err, result) => {
-      console.log(err);
-      console.log(result);
-    })
-
-    //console.log(paramHash)
+    ).estimateGas();
 
     // calls initialize method in generic scheme contract
     /// https://github.com/daostack/arc/blob/master/contracts/schemes/GenericScheme.sol
     const result = await genericScheme.methods.initialize(
       avatar,
       votingMachineAddress,
-      voteParams,
+      paramHash,
       targetContractAddress
-    ).send();
-    // console.log(result)
+    ).send({ from, gas: estimate });
+    console.log(result)
   }
 
   useEffect(()=>{
