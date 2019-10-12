@@ -14,7 +14,7 @@ const optionByNetwork = {
     daoAddress: '0x72939947e7a1c4ac94bb840e3304b322237ad1a8', // Genesis Alpha 
     uGenericAddr: '0x72dB54E63B3004a4bd030E5E0333579C1d54B863'
   },
-  main: {
+  mainnet: {
     votingMachineAddress: '0x8DDCEF56944094DF8ef8836A6f8168a75a133192', // Genesis Protocol
     targetContractAddress: '0x43ee232734097B07803Ea605b49C6eE6Bf10f8cc', // standard bounties contract
     daoAddress: '0x294f999356ed03347c7a23bcbcf8d33fa41dc830', // Genesis Alpha DAO
