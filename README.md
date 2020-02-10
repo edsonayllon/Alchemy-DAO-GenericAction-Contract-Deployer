@@ -1,4 +1,3 @@
-
 ---
 author: Edson Ayllon
 category: functionality
