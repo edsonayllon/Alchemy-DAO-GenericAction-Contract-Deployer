@@ -15,13 +15,13 @@ const optionByNetwork = {
     uGenericAddr: '0x72dB54E63B3004a4bd030E5E0333579C1d54B863'
   },
   mainnet: {
-    votingMachineAddress: '0x8DDCEF56944094DF8ef8836A6f8168a75a133192', // Genesis Protocol
-    targetContractAddress: '0x43ee232734097B07803Ea605b49C6eE6Bf10f8cc', // standard bounties contract
+    votingMachineAddress: '0x332B8C9734b4097dE50f302F7D9F273FFdB45B84', // Genesis Protocol
+    targetContractAddress: '0xa7135d0a62939501b5304a04bf00d1a9a22f6623', // standard bounties contract
     daoAddress: '0x294f999356ed03347c7a23bcbcf8d33fa41dc830', // Genesis Alpha DAO
     uGenericAddr: '0xB00230dB44150862791fFd7CD56E3993d44A0d9c'
   }
 }
-const network = 'rinkeby';
+const network = 'mainnet';
 
 function App() {
   const deployGenericScheme = async () => {
@@ -131,7 +131,7 @@ function App() {
   }
 
   useEffect(()=>{
-    deployUniversalScheme();
+    deployGenericScheme();
   })
 
   return (
